@@ -1,5 +1,3 @@
-import { totalmem } from "os";
-
 export {};
 const fs = require("fs");
 
