@@ -44,8 +44,10 @@ function partTwo(heightMap: number[][]): number {
 
   for (let i = 0; i < heightMap.length; i++) {
     for (let j = 0; j < heightMap[i].length; j++) {
-      const sizeOfBasin = measureBasin(heightMap, i, j);
-      basins.push(sizeOfBasin);
+      if (heightMap[i][j] !== -1) {
+        const sizeOfBasin = measureBasin(heightMap, i, j);
+        basins.push(sizeOfBasin);
+      }
     }
   }
 
@@ -60,37 +62,39 @@ function measureBasin(heightMap: number[][], i: number, j: number): number {
     return 0;
   }
 
+  heightMap[i][j] = -1;
+
   let basinCount = 0;
   // For the current node.
   basinCount += 1;
 
-  // const leftNodeJ = j > 0 ? j - 1 : null;
+  const leftNodeJ = j > 0 ? j - 1 : null;
   const rightNodeJ = j < heightMap[i].length - 1 ? j + 1 : null;
-  // const topNodeI = i > 0 ? i - 1 : null;
+  const topNodeI = i > 0 ? i - 1 : null;
   const bottomNodeI = i < heightMap.length - 1 ? i + 1 : null;
 
   // left
-  // if (leftNodeJ !== null) {
-  //   basinCount += measureBasin(heightMap, i, leftNodeJ);
-  // }
+  if (leftNodeJ !== null && heightMap[i][leftNodeJ] !== -1) {
+    basinCount += measureBasin(heightMap, i, leftNodeJ);
+  }
 
   // right
-  if (rightNodeJ !== null) {
+  if (rightNodeJ !== null && heightMap[i][rightNodeJ] !== -1) {
     basinCount += measureBasin(heightMap, i, rightNodeJ);
   }
 
   // top
-  // if (topNodeI !== null) {
-  //   basinCount += measureBasin(heightMap, topNodeI, j);
-  // }
+  if (topNodeI !== null && heightMap[topNodeI][j] !== -1) {
+    basinCount += measureBasin(heightMap, topNodeI, j);
+  }
   // bottom
-  if (bottomNodeI !== null) {
+  if (bottomNodeI !== null && heightMap[bottomNodeI][j] !== -1) {
     basinCount += measureBasin(heightMap, bottomNodeI, j);
   }
 
   return basinCount;
 }
 
-const input = parseFile("./small.txt");
-// console.log(`Part One: ${partOne(input)}`);
+const input = parseFile("./input.txt");
+console.log(`Part One: ${partOne(input)}`);
 console.log(`Part Two: ${partTwo(input)}`);
