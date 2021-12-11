@@ -54,6 +54,7 @@ function partTwo(heightMap: number[][]): number {
 }
 
 function measureBasin(heightMap: number[][], i: number, j: number): number {
+  // do depth search, and mark each one as -1 after you've gone there...
   // recursion???
   if (heightMap[i][j] === 9) {
     return 0;
